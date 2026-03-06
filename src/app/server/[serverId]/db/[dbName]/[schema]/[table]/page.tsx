@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { Eye, Key, Link2, Table2 } from "lucide-react"
 import { getServerConfig } from "@/lib/db/config"
@@ -21,6 +22,22 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import type { ColumnInfo, ConstraintInfo, IndexInfo } from "@/types/database"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{
+    serverId: string
+    dbName: string
+    schema: string
+    table: string
+  }>
+}): Promise<Metadata> {
+  const { schema, table } = await params
+  return {
+    title: `${decodeURIComponent(table)} · ${decodeURIComponent(schema)}`,
+  }
+}
 
 export default async function TablePage({
   params,

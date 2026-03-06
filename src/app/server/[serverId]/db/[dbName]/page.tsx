@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getServerConfig } from "@/lib/db/config"
 import { getDatabaseOverview } from "@/lib/db/queries"
@@ -9,6 +10,18 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ serverId: string; dbName: string }>
+}): Promise<Metadata> {
+  const { serverId, dbName } = await params
+  const config = await getServerConfig(serverId)
+  return {
+    title: `${decodeURIComponent(dbName)} · ${config?.name ?? "Server"}`,
+  }
+}
 
 export default async function DatabasePage({
   params,

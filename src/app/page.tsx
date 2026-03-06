@@ -1,8 +1,15 @@
+import type { Metadata } from "next"
 import { getServerConfigs } from "@/lib/db/config"
 import { testConnection } from "@/lib/db/pool"
 import { Header } from "@/components/header"
 import { NoServersConfigured } from "@/components/no-servers"
 import { ServerCard } from "@/components/server-card"
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "servers · pgui",
+  },
+}
 
 export default async function HomePage() {
   const configs = await getServerConfigs()

@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Eye, Table2 } from "lucide-react"
@@ -11,6 +12,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ serverId: string; dbName: string; schema: string }>
+}): Promise<Metadata> {
+  const { dbName, schema } = await params
+  return {
+    title: `${decodeURIComponent(schema)} · ${decodeURIComponent(dbName)}`,
+  }
+}
 
 export default async function SchemaPage({
   params,

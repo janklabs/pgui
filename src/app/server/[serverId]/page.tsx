@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { Server } from "lucide-react"
 import { getServerConfig } from "@/lib/db/config"
@@ -12,6 +13,16 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ serverId: string }>
+}): Promise<Metadata> {
+  const { serverId } = await params
+  const config = await getServerConfig(serverId)
+  return { title: config?.name ?? "Server" }
+}
 
 export default async function ServerPage({
   params,

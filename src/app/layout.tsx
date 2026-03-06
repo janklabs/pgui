@@ -15,7 +15,10 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "pgui",
+  title: {
+    default: "pgui",
+    template: "%s · pgui",
+  },
   description: "Postgres database browser",
 }
 
