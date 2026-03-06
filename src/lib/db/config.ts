@@ -10,7 +10,7 @@ export async function getServerConfigs(): Promise<ServerConfig[]> {
     const prefix = `DB_${i}_`
     const name = process.env[`${prefix}NAME`]
     const host = process.env[`${prefix}HOST`]
-    const user = process.env[`${prefix}USER`]
+    const user = process.env[`${prefix}USERNAME`]
     const password = process.env[`${prefix}PASSWORD`]
 
     if (!name && !host) {
@@ -19,7 +19,7 @@ export async function getServerConfigs(): Promise<ServerConfig[]> {
 
     if (!host || !user) {
       console.warn(
-        `Server config DB_${i} is incomplete (missing HOST or USER). Skipping.`,
+        `Server config DB_${i} is incomplete (missing HOST or USERNAME). Skipping.`,
       )
       continue
     }

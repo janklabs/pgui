@@ -35,7 +35,7 @@ export function NoServersConfigured() {
 DB_1_NAME=production
 DB_1_HOST=localhost
 DB_1_PORT=5432
-DB_1_USER=readonly
+DB_1_USERNAME=readonly
 DB_1_PASSWORD=secret
 DB_1_SSL=false
 
@@ -43,7 +43,7 @@ DB_1_SSL=false
 DB_2_NAME=staging
 DB_2_HOST=staging.internal
 DB_2_PORT=5432
-DB_2_USER=readonly
+DB_2_USERNAME=readonly
 DB_2_PASSWORD=secret2
 DB_2_SSL=true`}
             </pre>

@@ -60,7 +60,7 @@ There is no test framework configured. No test commands exist.
 | Variables/functions | camelCase                 | `getServerConfigs`, `formatRowCount`         |
 | Types/Interfaces    | PascalCase                | `ServerConfig`, `TableDataResult`            |
 | Props interfaces    | `{Component}Props`        | `ServerCardProps`, `DataTableProps`          |
-| Environment vars    | `DB_{N}_{FIELD}`          | `DB_1_HOST`, `DB_2_USER`                     |
+| Environment vars    | `DB_{N}_{FIELD}`          | `DB_1_HOST`, `DB_2_USERNAME`                 |
 
 ### Exports
 
@@ -216,7 +216,7 @@ The app scans sequentially and stops at the first gap.
 DB_1_NAME=production    # Display name (defaults to "Server N")
 DB_1_HOST=localhost     # Required
 DB_1_PORT=5432          # Optional, defaults to 5432
-DB_1_USER=readonly      # Required
+DB_1_USERNAME=readonly      # Required
 DB_1_PASSWORD=secret    # Optional, defaults to ""
 DB_1_SSL=false          # Optional, defaults to false
 ```

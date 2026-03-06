@@ -3,7 +3,7 @@
 A lightweight web GUI for browsing PostgreSQL databases. Set a few environment variables, run the container, and you're in.
 
 ```bash
-docker run -p 3000:3000 -e DB_1_HOST=localhost -e DB_1_USER=readonly kvqn/pgui:latest
+docker run -p 3000:3000 -e DB_1_HOST=localhost -e DB_1_USERNAME=readonly kvqn/pgui:latest
 ```
 
 ## Features
@@ -20,7 +20,7 @@ docker run -p 3000:3000 -e DB_1_HOST=localhost -e DB_1_USER=readonly kvqn/pgui:l
 ```bash
 docker run -p 3000:3000 \
   -e DB_1_HOST=host.docker.internal \
-  -e DB_1_USER=readonly \
+  -e DB_1_USERNAME=readonly \
   -e DB_1_PASSWORD=secret \
   kvqn/pgui:latest
 ```
@@ -37,7 +37,7 @@ services:
       - 3000:3000
     environment:
       DB_1_HOST: host.docker.internal
-      DB_1_USER: readonly
+      DB_1_USERNAME: readonly
       DB_1_PASSWORD: secret
     restart: unless-stopped
 ```
@@ -51,6 +51,6 @@ Servers are configured via numbered environment variables (`DB_1_*`, `DB_2_*`, e
 | `DB_{N}_NAME`     | No       | `Server {N}` | Display name in the UI   |
 | `DB_{N}_HOST`     | Yes      |              | PostgreSQL host          |
 | `DB_{N}_PORT`     | No       | `5432`       | PostgreSQL port          |
-| `DB_{N}_USER`     | Yes      |              | PostgreSQL user          |
+| `DB_{N}_USERNAME` | Yes      |              | PostgreSQL user          |
 | `DB_{N}_PASSWORD` | No       | `""`         | PostgreSQL password      |
 | `DB_{N}_SSL`      | No       | `false`      | Set `true` to enable SSL |
