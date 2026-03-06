@@ -2,6 +2,10 @@
 
 A lightweight web GUI for browsing PostgreSQL databases. Set a few environment variables, run the container, and you're in.
 
+```bash
+docker run -p 3000:3000 -e DB_1_HOST=localhost -e DB_1_USER=readonly kvqn/pgui:latest
+```
+
 ## Features
 
 - **Zero-config** - pass your connection details as env vars and everything is discovered automatically
@@ -18,10 +22,25 @@ docker run -p 3000:3000 \
   -e DB_1_HOST=host.docker.internal \
   -e DB_1_USER=readonly \
   -e DB_1_PASSWORD=secret \
-  your-image:latest
+  kvqn/pgui:latest
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+### Docker Compose
+
+```yaml
+services:
+  pgui:
+    image: kvqn/pgui:latest
+    ports:
+      - 3000:3000
+    environment:
+      DB_1_HOST: host.docker.internal
+      DB_1_USER: readonly
+      DB_1_PASSWORD: secret
+    restart: unless-stopped
+```
 
 ## Configuration
 
