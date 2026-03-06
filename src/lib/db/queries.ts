@@ -166,11 +166,11 @@ export async function getConstraints(
     SELECT
       tc.constraint_name,
       tc.constraint_type,
-      array_agg(DISTINCT kcu.column_name ORDER BY kcu.column_name) AS column_names,
+      array_to_json(array_agg(DISTINCT kcu.column_name ORDER BY kcu.column_name)) AS column_names,
       ccu.table_schema AS foreign_table_schema,
       ccu.table_name AS foreign_table_name,
-      array_agg(DISTINCT ccu.column_name ORDER BY ccu.column_name)
-        FILTER (WHERE tc.constraint_type = 'FOREIGN KEY') AS foreign_column_names
+      array_to_json(array_agg(DISTINCT ccu.column_name ORDER BY ccu.column_name)
+        FILTER (WHERE tc.constraint_type = 'FOREIGN KEY')) AS foreign_column_names
     FROM information_schema.table_constraints tc
     JOIN information_schema.key_column_usage kcu
       ON kcu.constraint_name = tc.constraint_name
