@@ -34,9 +34,9 @@ export default async function DatabaseLayout({
     <div className="flex h-screen flex-col">
       <Header />
       <div className="flex flex-1 overflow-hidden">
-        <aside className="flex w-64 shrink-0 flex-col border-r">
+        <aside className="bg-muted/30 flex w-64 shrink-0 flex-col border-r">
           <div className="flex items-center gap-2 px-4 py-3">
-            <Database className="text-muted-foreground h-4 w-4" />
+            <Database className="h-4 w-4 text-violet-500" />
             <div className="min-w-0">
               <div className="truncate text-sm font-medium">
                 {decodedDbName}

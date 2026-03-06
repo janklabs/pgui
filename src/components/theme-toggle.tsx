@@ -32,6 +32,8 @@ export function ThemeToggle() {
     )
   }
 
+  const themeName = theme === "dark" ? "Shell" : "Ghost"
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -42,14 +44,14 @@ export function ThemeToggle() {
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
           {theme === "dark" ? (
-            <Moon className="h-4 w-4" />
+            <Moon className="h-4 w-4 text-indigo-400" />
           ) : (
-            <Sun className="h-4 w-4" />
+            <Sun className="h-4 w-4 text-amber-500" />
           )}
-          <span className="sr-only">Switch Theme</span>
+          <span className="sr-only">{themeName}</span>
         </Button>
       </TooltipTrigger>
-      <TooltipContent>Switch Theme</TooltipContent>
+      <TooltipContent>{themeName}</TooltipContent>
     </Tooltip>
   )
 }

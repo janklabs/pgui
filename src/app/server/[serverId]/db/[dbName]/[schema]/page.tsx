@@ -73,7 +73,7 @@ export default async function SchemaPage({
                     <Card className="hover:border-primary/50 transition-colors">
                       <CardHeader className="pb-2">
                         <div className="flex items-center gap-2">
-                          <Table2 className="text-muted-foreground h-4 w-4" />
+                          <Table2 className="h-4 w-4 text-orange-500" />
                           <CardTitle className="text-sm">
                             {table.table_name}
                           </CardTitle>
@@ -105,14 +105,19 @@ export default async function SchemaPage({
                     <Card className="hover:border-primary/50 transition-colors">
                       <CardHeader className="pb-2">
                         <div className="flex items-center gap-2">
-                          <Eye className="text-muted-foreground h-4 w-4" />
+                          <Eye className="h-4 w-4 text-cyan-500" />
                           <CardTitle className="text-sm">
                             {view.table_name}
                           </CardTitle>
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <Badge variant="outline">View</Badge>
+                        <Badge
+                          variant="outline"
+                          className="border-cyan-500/30 text-cyan-600 dark:text-cyan-400"
+                        >
+                          View
+                        </Badge>
                       </CardContent>
                     </Card>
                   </Link>

@@ -38,7 +38,7 @@ export function CreateDatabaseDialog({ serverId }: { serverId: string }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="sm" variant="outline">
-          <Plus className="mr-1.5 h-4 w-4" />
+          <Plus className="mr-1.5 h-4 w-4 text-emerald-500" />
           New Database
         </Button>
       </DialogTrigger>

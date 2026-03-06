@@ -144,7 +144,7 @@ export function DataTable({
                       {info && (
                         <Badge
                           variant="outline"
-                          className="ml-1 font-mono text-[10px] font-normal"
+                          className="ml-1 border-sky-500/30 font-mono text-[10px] font-normal text-sky-600 dark:text-sky-400"
                         >
                           {info.udt_name}
                         </Badge>
@@ -310,7 +310,11 @@ function FilterBar({
       {activeFilters.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {activeFilters.map(([col, value]) => (
-            <Badge key={col} variant="secondary" className="gap-1">
+            <Badge
+              key={col}
+              variant="secondary"
+              className="gap-1 bg-violet-500/10 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300"
+            >
               <span className="font-medium">{col}</span>
               <span className="text-muted-foreground">contains</span>
               <span>&quot;{value}&quot;</span>
@@ -340,11 +344,16 @@ function FilterBar({
 
 function CellValue({ value }: { value: unknown }) {
   if (value === null) {
-    return <span className="text-muted-foreground/50 italic">NULL</span>
+    return <span className="text-rose-400/70 italic">NULL</span>
   }
   if (typeof value === "boolean") {
     return (
-      <Badge variant={value ? "default" : "secondary"}>{String(value)}</Badge>
+      <Badge
+        variant={value ? "default" : "secondary"}
+        className={value ? "" : "text-rose-500 dark:text-rose-400"}
+      >
+        {String(value)}
+      </Badge>
     )
   }
   if (typeof value === "object") {

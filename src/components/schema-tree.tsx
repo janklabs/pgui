@@ -96,13 +96,15 @@ function SchemaNode({
       <CollapsibleTrigger asChild>
         <button
           className={`hover:bg-accent flex w-full items-center gap-1.5 rounded-md px-2 py-1.5 text-sm ${
-            isActive && !activeTable ? "bg-accent font-medium" : ""
+            isActive && !activeTable
+              ? "bg-primary/10 text-primary font-medium"
+              : ""
           }`}
         >
           <ChevronRight
             className={`h-3.5 w-3.5 shrink-0 transition-transform ${open ? "rotate-90" : ""}`}
           />
-          <Columns3 className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+          <Columns3 className="h-3.5 w-3.5 shrink-0 text-purple-500" />
           <span className="truncate">{schemaName}</span>
         </button>
       </CollapsibleTrigger>
@@ -119,19 +121,21 @@ function SchemaNode({
               key={table.table_name}
               href={`${baseUrl}/${encodeURIComponent(schemaName)}/${encodeURIComponent(table.table_name)}`}
               className={`hover:bg-accent flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm ${
-                activeTable === table.table_name ? "bg-accent font-medium" : ""
+                activeTable === table.table_name
+                  ? "bg-primary/10 text-primary font-medium"
+                  : ""
               }`}
             >
               {table.table_type === "VIEW" ? (
-                <Eye className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+                <Eye className="h-3.5 w-3.5 shrink-0 text-cyan-500" />
               ) : (
-                <Table2 className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+                <Table2 className="h-3.5 w-3.5 shrink-0 text-orange-500" />
               )}
               <span className="truncate">{table.table_name}</span>
               {table.row_estimate > 0 && (
                 <Badge
                   variant="secondary"
-                  className="ml-auto shrink-0 text-[10px]"
+                  className="ml-auto shrink-0 text-[10px] text-pink-600 dark:text-pink-400"
                 >
                   ~{formatRowCount(table.row_estimate)}
                 </Badge>

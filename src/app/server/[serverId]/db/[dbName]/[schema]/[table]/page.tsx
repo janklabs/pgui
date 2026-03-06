@@ -89,9 +89,9 @@ export default async function TablePage({
     <div className="p-6">
       <div className="mb-6 flex items-start gap-3">
         {isView ? (
-          <Eye className="text-muted-foreground mt-1 h-5 w-5" />
+          <Eye className="mt-1 h-5 w-5 text-cyan-500" />
         ) : (
-          <Table2 className="text-muted-foreground mt-1 h-5 w-5" />
+          <Table2 className="mt-1 h-5 w-5 text-orange-500" />
         )}
         <div>
           <h1 className="text-2xl font-bold tracking-tight">{decodedTable}</h1>
@@ -147,14 +147,20 @@ function ColumnsCard({ columns }: { columns: ColumnInfo[] }) {
             >
               <span className="font-mono">{col.column_name}</span>
               <div className="flex items-center gap-1.5">
-                <Badge variant="outline" className="font-mono text-[10px]">
+                <Badge
+                  variant="outline"
+                  className="border-sky-500/30 font-mono text-[10px] text-sky-600 dark:text-sky-400"
+                >
                   {col.udt_name}
                   {col.character_maximum_length
                     ? `(${col.character_maximum_length})`
                     : ""}
                 </Badge>
                 {col.is_nullable === "NO" && (
-                  <Badge variant="secondary" className="text-[10px]">
+                  <Badge
+                    variant="secondary"
+                    className="bg-amber-500/10 text-[10px] text-amber-600 dark:bg-amber-500/20 dark:text-amber-400"
+                  >
                     NOT NULL
                   </Badge>
                 )}
@@ -182,7 +188,10 @@ function IndexesCard({ indexes }: { indexes: IndexInfo[] }) {
                 {idx.is_primary && <Key className="h-3 w-3 text-amber-500" />}
                 <span className="font-mono font-medium">{idx.index_name}</span>
                 {idx.is_unique && !idx.is_primary && (
-                  <Badge variant="secondary" className="text-[10px]">
+                  <Badge
+                    variant="secondary"
+                    className="bg-purple-500/10 text-[10px] text-purple-600 dark:bg-purple-500/20 dark:text-purple-400"
+                  >
                     UNIQUE
                   </Badge>
                 )}
@@ -216,7 +225,18 @@ function ConstraintsCard({ constraints }: { constraints: ConstraintInfo[] }) {
                 <span className="font-mono font-medium">
                   {con.constraint_name}
                 </span>
-                <Badge variant="outline" className="text-[10px]">
+                <Badge
+                  variant="outline"
+                  className={`text-[10px] ${
+                    con.constraint_type === "PRIMARY KEY"
+                      ? "border-amber-500/30 text-amber-600 dark:text-amber-400"
+                      : con.constraint_type === "FOREIGN KEY"
+                        ? "border-blue-500/30 text-blue-600 dark:text-blue-400"
+                        : con.constraint_type === "UNIQUE"
+                          ? "border-purple-500/30 text-purple-600 dark:text-purple-400"
+                          : "border-teal-500/30 text-teal-600 dark:text-teal-400"
+                  }`}
+                >
                   {con.constraint_type}
                 </Badge>
               </div>

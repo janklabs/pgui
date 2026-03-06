@@ -22,7 +22,7 @@ export function ServerCard({ config, status }: ServerCardProps) {
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
-              <Server className="text-muted-foreground h-4 w-4" />
+              <Server className="h-4 w-4 text-indigo-500" />
               <CardTitle className="text-base">{config.name}</CardTitle>
             </div>
             {status.ok ? (
@@ -48,9 +48,18 @@ export function ServerCard({ config, status }: ServerCardProps) {
           <div className="text-muted-foreground flex items-center gap-4 text-xs">
             <span>User: {config.user}</span>
             {status.ok && status.latencyMs !== undefined && (
-              <span>{status.latencyMs}ms</span>
+              <span className="text-cyan-600 dark:text-cyan-400">
+                {status.latencyMs}ms
+              </span>
             )}
-            {config.ssl && <Badge variant="outline">SSL</Badge>}
+            {config.ssl && (
+              <Badge
+                variant="outline"
+                className="border-emerald-500/30 text-emerald-600 dark:text-emerald-400"
+              >
+                SSL
+              </Badge>
+            )}
           </div>
           {!status.ok && status.error && (
             <p className="text-destructive mt-2 text-xs">{status.error}</p>

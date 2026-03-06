@@ -45,7 +45,7 @@ export default async function ServerPage({
         <div className="mx-auto max-w-5xl">
           <div className="mb-6">
             <div className="flex items-center gap-2">
-              <Server className="text-muted-foreground h-5 w-5" />
+              <Server className="h-5 w-5 text-indigo-500" />
               <h1 className="text-2xl font-bold tracking-tight">
                 {config.name}
               </h1>
@@ -79,7 +79,9 @@ export default async function ServerPage({
                     <CardDescription>Databases</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-2xl font-bold">{databases.length}</p>
+                    <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
+                      {databases.length}
+                    </p>
                   </CardContent>
                 </Card>
                 <Card>
@@ -91,7 +93,14 @@ export default async function ServerPage({
                       <span className="text-sm">
                         {config.user}@{config.host}
                       </span>
-                      {config.ssl && <Badge variant="outline">SSL</Badge>}
+                      {config.ssl && (
+                        <Badge
+                          variant="outline"
+                          className="border-emerald-500/30 text-emerald-600 dark:text-emerald-400"
+                        >
+                          SSL
+                        </Badge>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

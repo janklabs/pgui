@@ -70,7 +70,9 @@ export default async function DatabasePage({
               <CardDescription>Database Size</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">{overview.database_size}</p>
+              <p className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">
+                {overview.database_size}
+              </p>
             </CardContent>
           </Card>
           <Card>
@@ -80,7 +82,15 @@ export default async function DatabasePage({
             <CardContent>
               <div className="flex flex-wrap gap-1.5">
                 {overview.schemas.map((s) => (
-                  <Badge key={s.schema_name} variant="secondary">
+                  <Badge
+                    key={s.schema_name}
+                    variant="secondary"
+                    className={
+                      s.schema_name === "public"
+                        ? "bg-violet-500/10 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300"
+                        : "bg-sky-500/10 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300"
+                    }
+                  >
                     {s.schema_name}
                   </Badge>
                 ))}

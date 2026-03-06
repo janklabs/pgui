@@ -58,7 +58,7 @@ export function CopyConnectionUrl(props: CopyConnectionUrlProps) {
               className="absolute inset-0 inline-flex items-center justify-center transition-opacity duration-200"
               style={{ opacity: copied ? 1 : 0 }}
             >
-              <Check className="mr-1.5 h-4 w-4" />
+              <Check className="mr-1.5 h-4 w-4 text-emerald-500" />
               Copied!
             </span>
           </span>

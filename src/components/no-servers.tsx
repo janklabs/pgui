@@ -13,7 +13,7 @@ export function NoServersConfigured() {
       <Card className="max-w-lg">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Server className="text-muted-foreground h-5 w-5" />
+            <Server className="h-5 w-5 text-amber-500" />
             <CardTitle>No Servers Configured</CardTitle>
           </div>
           <CardDescription>
@@ -23,9 +23,9 @@ export function NoServersConfigured() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="bg-muted rounded-md p-4">
+          <div className="bg-muted rounded-md border-l-4 border-l-emerald-500 p-4">
             <div className="mb-2 flex items-center gap-2">
-              <Terminal className="text-muted-foreground h-4 w-4" />
+              <Terminal className="h-4 w-4 text-emerald-500" />
               <span className="text-muted-foreground text-xs font-medium">
                 Environment Variables
               </span>

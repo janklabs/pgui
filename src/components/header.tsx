@@ -22,8 +22,8 @@ export function Header() {
     <header className="border-b">
       <div className="flex h-14 items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
-          <Database className="h-5 w-5" />
-          <span>pgui</span>
+          <Database className="h-5 w-5 text-violet-500" />
+          <span>PGUI</span>
         </Link>
         <div className="flex items-center gap-2">
           <TooltipProvider delayDuration={0}>
