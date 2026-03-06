@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# pgui
 
-## Getting Started
+A lightweight, read-only web GUI for browsing PostgreSQL databases. Configure your servers via environment variables, and pgui automatically discovers all databases, schemas, tables, and views — giving you a clean interface to explore structure and data.
 
-First, run the development server:
+## Features
+
+- **Multi-server support** — connect to multiple PostgreSQL servers simultaneously
+- **Automatic discovery** — databases, schemas, tables, and views are discovered automatically
+- **Table data browser** — paginated data grid with column sorting, text filtering, and type-aware cell rendering
+- **Structure inspection** — view columns, indexes, and constraints for any table
+- **Create databases** — create new databases directly from the UI
+- **Dark / light theme** — toggle between themes, defaults to system preference
+- **Read-only connections** — all pooled connections enforce `default_transaction_read_only = true`
+- **Copy connection URL** — one-click copy of `postgresql://` connection strings
+
+## Quick Start
+
+### Docker (recommended)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker run -p 3000:3000 \
+  -e DB_1_NAME=production \
+  -e DB_1_HOST=host.docker.internal \
+  -e DB_1_PORT=5432 \
+  -e DB_1_USER=readonly \
+  -e DB_1_PASSWORD=secret \
+  your-image:latest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Or with Docker Compose:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```yaml
+services:
+  pgui:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_1_NAME=production
+      - DB_1_HOST=host.docker.internal
+      - DB_1_PORT=5432
+      - DB_1_USER=readonly
+      - DB_1_PASSWORD=secret
+    restart: unless-stopped
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Local Development
 
-## Learn More
+```bash
+# Install dependencies
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# Copy and configure environment variables
+cp .env.example .env
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Start the dev server
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000) to browse your databases.
 
-## Deploy on Vercel
+## Configuration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Servers are configured through numbered environment variables. The app scans `DB_1_*`, `DB_2_*`, `DB_3_*`, etc., stopping at the first gap.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Variable          | Required | Default      | Description              |
+| ----------------- | -------- | ------------ | ------------------------ |
+| `DB_{N}_NAME`     | No       | `Server {N}` | Display name in the UI   |
+| `DB_{N}_HOST`     | Yes      |              | PostgreSQL host          |
+| `DB_{N}_PORT`     | No       | `5432`       | PostgreSQL port          |
+| `DB_{N}_USER`     | Yes      |              | PostgreSQL user          |
+| `DB_{N}_PASSWORD` | No       | `""`         | PostgreSQL password      |
+| `DB_{N}_SSL`      | No       | `false`      | Set `true` to enable SSL |
+
+Example with two servers:
+
+```bash
+# Server 1
+DB_1_NAME=production
+DB_1_HOST=localhost
+DB_1_USER=readonly
+DB_1_PASSWORD=secret
+
+# Server 2
+DB_2_NAME=staging
+DB_2_HOST=staging-db.internal
+DB_2_USER=readonly
+DB_2_PASSWORD=secret2
+DB_2_SSL=true
+```
+
+## Scripts
+
+| Command                | Description                          |
+| ---------------------- | ------------------------------------ |
+| `npm run dev`          | Start development server             |
+| `npm run build`        | Production build (standalone output) |
+| `npm run start`        | Start production server              |
+| `npm run lint`         | Run ESLint                           |
+| `npm run format`       | Format all files with Prettier       |
+| `npm run format:check` | Check formatting without writing     |
+
+## Tech Stack
+
+- [Next.js 16](https://nextjs.org) (App Router, standalone output)
+- [React 19](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [shadcn/ui](https://ui.shadcn.com) (Radix UI primitives)
+- [node-postgres](https://node-postgres.com) (`pg`)
+- [Lucide](https://lucide.dev) icons
