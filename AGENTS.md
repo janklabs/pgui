@@ -51,15 +51,15 @@ There is no test framework configured. No test commands exist.
 
 ### Naming
 
-| Entity | Convention | Example |
-|---|---|---|
-| Files | kebab-case | `schema-tree.tsx`, `server-card.tsx` |
-| Components | PascalCase functions | `export function SchemaTree()` |
-| Pages/Layouts | PascalCase default export | `export default async function ServerPage()` |
-| Variables/functions | camelCase | `getServerConfigs`, `formatRowCount` |
-| Types/Interfaces | PascalCase | `ServerConfig`, `TableDataResult` |
-| Props interfaces | `{Component}Props` | `ServerCardProps`, `DataTableProps` |
-| Environment vars | `DB_{N}_{FIELD}` | `DB_1_HOST`, `DB_2_USER` |
+| Entity              | Convention                | Example                                      |
+| ------------------- | ------------------------- | -------------------------------------------- |
+| Files               | kebab-case                | `schema-tree.tsx`, `server-card.tsx`         |
+| Components          | PascalCase functions      | `export function SchemaTree()`               |
+| Pages/Layouts       | PascalCase default export | `export default async function ServerPage()` |
+| Variables/functions | camelCase                 | `getServerConfigs`, `formatRowCount`         |
+| Types/Interfaces    | PascalCase                | `ServerConfig`, `TableDataResult`            |
+| Props interfaces    | `{Component}Props`        | `ServerCardProps`, `DataTableProps`          |
+| Environment vars    | `DB_{N}_{FIELD}`          | `DB_1_HOST`, `DB_2_USER`                     |
 
 ### Exports
 
@@ -89,6 +89,7 @@ There is no test framework configured. No test commands exist.
 ### Server vs Client Components
 
 Components are server components by default. Add `"use client"` only when needed:
+
 - React hooks (`useState`, `useEffect`, `useCallback`)
 - Browser APIs or event handlers
 - Next.js client hooks (`useRouter`, `usePathname`, `useSearchParams`, `useParams`, `useTheme`)
@@ -108,6 +109,7 @@ Data fetching happens in server components (pages/layouts). Client components re
 ### Props
 
 Reusable components use named interfaces:
+
 ```tsx
 interface ServerCardProps {
   config: ServerConfig
@@ -117,6 +119,7 @@ export function ServerCard({ config, status }: ServerCardProps) {}
 ```
 
 Pages, layouts, and internal sub-components use inline types:
+
 ```tsx
 export default async function SchemaPage({
   params,
@@ -128,6 +131,7 @@ export default async function SchemaPage({
 ## Route Params (Next.js 15+ Pattern)
 
 Params and searchParams are `Promise` objects that must be awaited:
+
 ```tsx
 const { serverId, dbName } = await params
 const sp = await searchParams
@@ -148,6 +152,7 @@ Always decode URL segments: `const decodedSchema = decodeURIComponent(schema)`
 ## Error Handling
 
 **Server pages** -- try/catch with `let error: string | null = null`:
+
 ```tsx
 try {
   data = await fetchData(config, db)
@@ -157,6 +162,7 @@ try {
 ```
 
 **API routes** -- return JSON with status codes:
+
 ```tsx
 return NextResponse.json({ error: "..." }, { status: 500 })
 ```
@@ -164,6 +170,7 @@ return NextResponse.json({ error: "..." }, { status: 500 })
 **Not found** -- call `notFound()` from `next/navigation` for missing configs or entities.
 
 **Client-side fetch** -- silent catch (user retries by re-interacting):
+
 ```tsx
 try { ... } catch { /* user can retry */ }
 ```
