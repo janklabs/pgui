@@ -1,3 +1,4 @@
+import pg from "pg"
 import type {
   ColumnInfo,
   ConstraintInfo,
@@ -251,6 +252,27 @@ export async function getTableData(
     totalRows,
     page,
     pageSize,
+  }
+}
+
+export async function createDatabase(
+  config: ServerConfig,
+  name: string,
+): Promise<void> {
+  const client = new pg.Client({
+    host: config.host,
+    port: config.port,
+    database: "postgres",
+    user: config.user,
+    password: config.password,
+    ssl: config.ssl ? { rejectUnauthorized: false } : false,
+  })
+
+  await client.connect()
+  try {
+    await client.query(`CREATE DATABASE ${quoteIdent(name)}`)
+  } finally {
+    await client.end()
   }
 }
 

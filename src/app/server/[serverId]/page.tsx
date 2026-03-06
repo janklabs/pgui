@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import { Server } from "lucide-react"
 import { getServerConfig } from "@/lib/db/config"
 import { getDatabases, getServerVersion } from "@/lib/db/queries"
+import { CreateDatabaseDialog } from "@/components/create-database-dialog"
 import { DatabaseCard } from "@/components/db-card"
 import { Header } from "@/components/header"
 import { Badge } from "@/components/ui/badge"
@@ -97,9 +98,12 @@ export default async function ServerPage({
               </div>
 
               <div>
-                <h2 className="mb-3 text-lg font-semibold tracking-tight">
-                  Databases
-                </h2>
+                <div className="mb-3 flex items-center justify-between">
+                  <h2 className="text-lg font-semibold tracking-tight">
+                    Databases
+                  </h2>
+                  <CreateDatabaseDialog serverId={serverId} />
+                </div>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {databases.map((db) => (
                     <DatabaseCard
