@@ -5,14 +5,6 @@ const DEFAULT_DATABASE = "postgres"
 
 const pools = new Map<string, pg.Pool>()
 
-/**
- * Get or create a connection pool for a server + database combination.
- * Pools are cached by "serverId:databaseName" and reused across requests.
- * Every new connection is set to read-only mode for safety.
- *
- * When databaseName is omitted, connects to the `postgres` maintenance
- * database (used for server-level discovery queries).
- */
 export function getPool(config: ServerConfig, databaseName?: string): pg.Pool {
   const dbName = databaseName || DEFAULT_DATABASE
   const key = `${config.id}:${dbName}`
@@ -33,7 +25,6 @@ export function getPool(config: ServerConfig, databaseName?: string): pg.Pool {
     connectionTimeoutMillis: 5000,
   })
 
-  // Enforce read-only on every new connection
   pool.on("connect", (client) => {
     client.query("SET default_transaction_read_only = true").catch((err) => {
       console.error("Failed to set read-only mode:", err)
@@ -51,10 +42,6 @@ export function getPool(config: ServerConfig, databaseName?: string): pg.Pool {
   return pool
 }
 
-/**
- * Test if a server connection is reachable.
- * Connects to the `postgres` maintenance database.
- */
 export async function testConnection(
   config: ServerConfig,
 ): Promise<{ ok: boolean; error?: string; latencyMs?: number }> {

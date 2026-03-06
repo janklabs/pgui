@@ -83,7 +83,6 @@ function SchemaNode({
           setTables(data)
         }
       } catch {
-        // Silently fail -- user can retry by toggling
       } finally {
         setLoading(false)
       }

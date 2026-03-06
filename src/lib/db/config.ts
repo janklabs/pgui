@@ -1,13 +1,5 @@
 import type { ServerConfig } from "@/types/database"
 
-/**
- * Parse DB_N_* environment variables into ServerConfig objects.
- * Scans for DB_1_*, DB_2_*, DB_3_*, ... stopping at the first gap.
- *
- * Each group configures a Postgres *server*, not a specific database.
- * The app discovers databases automatically by connecting to the
- * `postgres` maintenance database on each server.
- */
 export function getServerConfigs(): ServerConfig[] {
   const configs: ServerConfig[] = []
 
@@ -18,7 +10,6 @@ export function getServerConfigs(): ServerConfig[] {
     const user = process.env[`${prefix}USER`]
     const password = process.env[`${prefix}PASSWORD`]
 
-    // Stop scanning when we hit a gap (no NAME or HOST defined for this index)
     if (!name && !host) {
       break
     }

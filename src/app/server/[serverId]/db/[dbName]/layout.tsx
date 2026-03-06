@@ -34,7 +34,6 @@ export default async function DatabaseLayout({
     <div className="flex h-screen flex-col">
       <Header />
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
         <aside className="flex w-64 shrink-0 flex-col border-r">
           <div className="flex items-center gap-2 px-4 py-3">
             <Database className="text-muted-foreground h-4 w-4" />
@@ -59,7 +58,6 @@ export default async function DatabaseLayout({
           )}
         </aside>
 
-        {/* Main content */}
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import {
   ArrowDown,
@@ -108,7 +108,6 @@ export function DataTable({
 
   return (
     <div className="space-y-4">
-      {/* Active filters */}
       <FilterBar
         columns={columns}
         filters={filters}
@@ -120,7 +119,6 @@ export function DataTable({
         }}
       />
 
-      {/* Table */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -185,7 +183,6 @@ export function DataTable({
         </Table>
       </div>
 
-      {/* Pagination */}
       <div className="flex items-center justify-between">
         <div className="text-muted-foreground flex items-center gap-2 text-sm">
           <span>

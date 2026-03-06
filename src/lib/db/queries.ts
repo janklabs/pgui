@@ -11,22 +11,12 @@ import type {
 import type { ServerConfig } from "@/types/database"
 import { getPool } from "./pool"
 
-// ---------------------------------------------------------------------------
-// Server-level queries (run against the `postgres` maintenance database)
-// ---------------------------------------------------------------------------
-
-/**
- * Get the Postgres server version string.
- */
 export async function getServerVersion(config: ServerConfig): Promise<string> {
   const pool = getPool(config)
   const result = await pool.query("SELECT version()")
   return result.rows[0]?.version ?? "Unknown"
 }
 
-/**
- * List all non-template databases on the server.
- */
 export async function getDatabases(
   config: ServerConfig,
 ): Promise<DatabaseInfo[]> {
@@ -44,13 +34,6 @@ export async function getDatabases(
   return result.rows
 }
 
-// ---------------------------------------------------------------------------
-// Database-level queries (run against a specific database)
-// ---------------------------------------------------------------------------
-
-/**
- * Get database overview: version, size, and list of schemas.
- */
 export async function getDatabaseOverview(
   config: ServerConfig,
   databaseName: string,
@@ -77,9 +60,6 @@ export async function getDatabaseOverview(
   }
 }
 
-/**
- * Get all schemas in the database (excluding system schemas).
- */
 export async function getSchemas(
   config: ServerConfig,
   databaseName: string,
@@ -94,9 +74,6 @@ export async function getSchemas(
   return result.rows
 }
 
-/**
- * Get tables and views in a schema with estimated row counts.
- */
 export async function getTables(
   config: ServerConfig,
   databaseName: string,
@@ -124,9 +101,6 @@ export async function getTables(
   return result.rows
 }
 
-/**
- * Get column information for a table.
- */
 export async function getColumns(
   config: ServerConfig,
   databaseName: string,
@@ -153,9 +127,6 @@ export async function getColumns(
   return result.rows
 }
 
-/**
- * Get indexes for a table.
- */
 export async function getIndexes(
   config: ServerConfig,
   databaseName: string,
@@ -182,9 +153,6 @@ export async function getIndexes(
   return result.rows
 }
 
-/**
- * Get constraints for a table.
- */
 export async function getConstraints(
   config: ServerConfig,
   databaseName: string,
@@ -219,9 +187,6 @@ export async function getConstraints(
   return result.rows
 }
 
-/**
- * Get paginated table data with optional sorting and column filtering.
- */
 export async function getTableData(
   config: ServerConfig,
   databaseName: string,
@@ -240,11 +205,9 @@ export async function getTableData(
   const pageSize = Math.min(100, Math.max(1, options.pageSize ?? 25))
   const offset = (page - 1) * pageSize
 
-  // Get columns to validate sort column and filter columns
   const columns = await getColumns(config, databaseName, schema, table)
   const validColumns = new Set(columns.map((c) => c.column_name))
 
-  // Build WHERE clause from filters
   const whereClauses: string[] = []
   const params: unknown[] = []
   let paramIndex = 1
@@ -262,7 +225,6 @@ export async function getTableData(
   const whereSQL =
     whereClauses.length > 0 ? `WHERE ${whereClauses.join(" AND ")}` : ""
 
-  // Build ORDER BY
   let orderSQL = ""
   if (options.sortColumn && validColumns.has(options.sortColumn)) {
     const dir = options.sortDirection === "desc" ? "DESC" : "ASC"
@@ -271,12 +233,10 @@ export async function getTableData(
 
   const qualifiedTable = `${quoteIdent(schema)}.${quoteIdent(table)}`
 
-  // Get total count
   const countQuery = `SELECT COUNT(*) AS total FROM ${qualifiedTable} ${whereSQL}`
   const countResult = await pool.query(countQuery, params)
   const totalRows = parseInt(countResult.rows[0]?.total ?? "0", 10)
 
-  // Get data page
   const dataQuery = `
     SELECT * FROM ${qualifiedTable}
     ${whereSQL}
@@ -294,9 +254,6 @@ export async function getTableData(
   }
 }
 
-/**
- * Quote a SQL identifier to prevent injection.
- */
 function quoteIdent(identifier: string): string {
   return `"${identifier.replace(/"/g, '""')}"`
 }

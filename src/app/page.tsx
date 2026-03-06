@@ -16,7 +16,6 @@ export default async function HomePage() {
     )
   }
 
-  // Test all connections in parallel
   const statuses = await Promise.all(
     configs.map(async (config) => {
       const status = await testConnection(config)

@@ -10,7 +10,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 
 export default async function ServerPage({
@@ -43,7 +42,6 @@ export default async function ServerPage({
       <Header />
       <main className="flex-1 p-6">
         <div className="mx-auto max-w-5xl">
-          {/* Server info */}
           <div className="mb-6">
             <div className="flex items-center gap-2">
               <Server className="text-muted-foreground h-5 w-5" />
@@ -64,7 +62,6 @@ export default async function ServerPage({
             </Card>
           ) : (
             <>
-              {/* Server stats */}
               <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <Card>
                   <CardHeader className="pb-2">
@@ -99,7 +96,6 @@ export default async function ServerPage({
                 </Card>
               </div>
 
-              {/* Database list */}
               <div>
                 <h2 className="mb-3 text-lg font-semibold tracking-tight">
                   Databases

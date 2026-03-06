@@ -45,7 +45,6 @@ export default async function TablePage({
     notFound()
   }
 
-  // Verify the table exists
   const tables = await getTables(config, decodedDbName, decodedSchema)
   const tableInfo = tables.find((t) => t.table_name === decodedTable)
   if (!tableInfo) {
@@ -54,7 +53,6 @@ export default async function TablePage({
 
   const isView = tableInfo.table_type === "VIEW"
 
-  // Parse search params
   const page = Math.max(1, parseInt(String(sp.page ?? "1"), 10))
   const pageSize = Math.min(
     100,
@@ -63,7 +61,6 @@ export default async function TablePage({
   const sortColumn = sp.sort ? String(sp.sort) : undefined
   const sortDirection = sp.dir === "desc" ? ("desc" as const) : ("asc" as const)
 
-  // Extract filters (f_columnname=value)
   const filters: Record<string, string> = {}
   for (const [key, value] of Object.entries(sp)) {
     if (key.startsWith("f_") && typeof value === "string" && value.trim()) {
@@ -71,7 +68,6 @@ export default async function TablePage({
     }
   }
 
-  // Fetch data in parallel
   const [columnInfo, indexInfo, constraintInfo, tableData] = await Promise.all([
     getColumns(config, decodedDbName, decodedSchema, decodedTable),
     !isView
@@ -91,7 +87,6 @@ export default async function TablePage({
 
   return (
     <div className="p-6">
-      {/* Header */}
       <div className="mb-6 flex items-start gap-3">
         {isView ? (
           <Eye className="text-muted-foreground mt-1 h-5 w-5" />
@@ -109,7 +104,6 @@ export default async function TablePage({
         </div>
       </div>
 
-      {/* Structure cards */}
       <div className="mb-6 grid gap-4 lg:grid-cols-3">
         <ColumnsCard columns={columnInfo} />
         {!isView && indexInfo.length > 0 && <IndexesCard indexes={indexInfo} />}
@@ -120,7 +114,6 @@ export default async function TablePage({
 
       <Separator className="mb-6" />
 
-      {/* Data table */}
       <Suspense fallback={<Skeleton className="h-96 w-full" />}>
         <DataTable
           columns={tableData.columns}
