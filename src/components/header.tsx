@@ -24,7 +24,7 @@ export function Header() {
       <div className="flex h-14 items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <Database className="h-5 w-5 text-violet-500" />
-          <span>PGUI</span>
+          <span>pgui</span>
         </Link>
         <div className="flex items-center gap-2">
           <TooltipProvider delayDuration={0}>
@@ -35,7 +35,7 @@ export function Header() {
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" asChild>
                   <a
-                    href="https://github.com/guneet-xyz/pgui"
+                    href="https://github.com/janklabs/pgui"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
