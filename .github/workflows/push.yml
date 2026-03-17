@@ -101,7 +101,6 @@ jobs:
     concurrency:
       group: deploy-vps
       cancel-in-progress: false
-    environment: deployment
     runs-on: ubuntu-latest
     steps:
       - name: Make .ssh folder
