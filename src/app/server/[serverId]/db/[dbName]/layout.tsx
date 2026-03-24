@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Database } from "lucide-react"
 
@@ -43,9 +44,12 @@ export default async function DatabaseLayout({
               <div className="truncate text-sm font-medium">
                 {decodedDbName}
               </div>
-              <div className="text-muted-foreground truncate font-mono text-xs">
+              <Link
+                href={`/server/${serverId}`}
+                className="text-muted-foreground hover:text-foreground truncate font-mono text-xs transition-colors"
+              >
                 {config.displayName} &middot; {config.host}:{config.port}
-              </div>
+              </Link>
             </div>
           </div>
           <Separator />
