@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import {
   ArrowDown,
@@ -31,6 +31,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import type { ColumnInfo } from "@/types/database"
 
 interface DataTableProps {
@@ -347,25 +352,58 @@ function FilterBar({
 }
 
 function CellValue({ value }: { value: unknown }) {
+  const [copied, setCopied] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null)
+
+  const handleCopy = useCallback(() => {
+    if (value === null) return
+    const text =
+      typeof value === "object" ? JSON.stringify(value, null, 2) : String(value)
+    navigator.clipboard.writeText(text)
+    setCopied(true)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => setCopied(false), 1500)
+  }, [value])
+
   if (value === null) {
     return <span className="text-rose-400/70 italic">NULL</span>
   }
-  if (typeof value === "boolean") {
-    return (
-      <Badge
-        variant={value ? "default" : "secondary"}
-        className={value ? "" : "text-rose-500 dark:text-rose-400"}
-      >
-        {String(value)}
-      </Badge>
-    )
-  }
-  if (typeof value === "object") {
-    return (
-      <span title={JSON.stringify(value, null, 2)}>
-        {JSON.stringify(value)}
-      </span>
-    )
-  }
-  return <span title={String(value)}>{String(value)}</span>
+
+  const content = (() => {
+    if (typeof value === "boolean") {
+      return (
+        <Badge
+          variant={value ? "default" : "secondary"}
+          className={value ? "" : "text-rose-500 dark:text-rose-400"}
+        >
+          {String(value)}
+        </Badge>
+      )
+    }
+    if (typeof value === "object") {
+      return (
+        <span title={JSON.stringify(value, null, 2)}>
+          {JSON.stringify(value)}
+        </span>
+      )
+    }
+    return <span title={String(value)}>{String(value)}</span>
+  })()
+
+  return (
+    <Tooltip open={copied}>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="max-w-full truncate text-left"
+        >
+          {content}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="text-xs">
+        Copied!
+      </TooltipContent>
+    </Tooltip>
+  )
 }
