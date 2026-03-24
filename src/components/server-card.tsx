@@ -19,8 +19,8 @@ interface ServerCardProps {
 export function ServerCard({ config, status }: ServerCardProps) {
   if (config.configError) {
     return (
-      <Link href={`/server/${config.id}`}>
-        <Card className="border-destructive/50 hover:border-destructive transition-colors">
+      <Link href={`/server/${config.id}`} className="h-full">
+        <Card className="border-destructive/50 hover:border-destructive flex h-full flex-col transition-colors">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export function ServerCard({ config, status }: ServerCardProps) {
               {config.host}:{config.port}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="mt-auto">
             <p className="text-destructive text-xs">{config.configError}</p>
           </CardContent>
         </Card>
@@ -47,8 +47,8 @@ export function ServerCard({ config, status }: ServerCardProps) {
   }
 
   return (
-    <Link href={`/server/${config.id}`}>
-      <Card className="hover:border-primary/50 transition-colors">
+    <Link href={`/server/${config.id}`} className="h-full">
+      <Card className="hover:border-primary/50 flex h-full flex-col transition-colors">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
@@ -74,7 +74,7 @@ export function ServerCard({ config, status }: ServerCardProps) {
             {config.host}:{config.port}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="mt-auto">
           <div className="text-muted-foreground flex items-center gap-4 text-xs">
             <span>User: {config.user}</span>
             {status.ok && status.latencyMs !== undefined && (
