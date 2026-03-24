@@ -68,8 +68,19 @@ function SchemaNode({
   useEffect(() => {
     if (isActive) {
       setOpen(true)
+      // Fetch tables if not already loaded (e.g. when navigating via search)
+      if (tables === null && !loading) {
+        setLoading(true)
+        fetch(
+          `/api/server/${serverId}/db/${encodeURIComponent(dbName)}/schemas/${encodeURIComponent(schemaName)}/tables`,
+        )
+          .then((res) => (res.ok ? res.json() : Promise.reject()))
+          .then((data) => setTables(data))
+          .catch(() => {})
+          .finally(() => setLoading(false))
+      }
     }
-  }, [isActive])
+  }, [isActive, tables, loading, serverId, dbName, schemaName])
 
   const handleToggle = async (isOpen: boolean) => {
     setOpen(isOpen)

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Database } from "lucide-react"
 
+import { SearchTrigger } from "@/components/search-trigger"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
 import {
@@ -27,6 +28,7 @@ export function Header() {
           <span>pgui</span>
         </Link>
         <div className="flex items-center gap-2">
+          <SearchTrigger />
           <TooltipProvider delayDuration={0}>
             <span className="text-muted-foreground text-xs">
               v{process.env.NEXT_PUBLIC_APP_VERSION}
