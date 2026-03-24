@@ -1,11 +1,14 @@
 export interface ServerConfig {
   id: string
-  name: string
+  displayName: string
   host: string
   port: number
   user: string
   password: string
   ssl: boolean
+  autodiscover: boolean
+  databases: string[] | null
+  configError?: string
 }
 
 export interface DatabaseInfo {

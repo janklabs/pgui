@@ -33,7 +33,7 @@ export function NoServersConfigured() {
             </div>
             <pre className="overflow-x-auto font-mono text-xs leading-relaxed">
               {`# Server 1
-DB_1_NAME=production
+DB_1_DISPLAY_NAME=production
 DB_1_HOST=localhost
 DB_1_PORT=5432
 DB_1_USERNAME=readonly
@@ -41,7 +41,7 @@ DB_1_PASSWORD=secret
 DB_1_SSL=false
 
 # Server 2
-DB_2_NAME=staging
+DB_2_DISPLAY_NAME=staging
 DB_2_HOST=staging.internal
 DB_2_PORT=5432
 DB_2_USERNAME=readonly

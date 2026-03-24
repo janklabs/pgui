@@ -46,11 +46,25 @@ services:
 
 Servers are configured via numbered environment variables (`DB_1_*`, `DB_2_*`, etc.):
 
-| Variable          | Required | Default      | Description              |
-| ----------------- | -------- | ------------ | ------------------------ |
-| `DB_{N}_NAME`     | No       | `Server {N}` | Display name in the UI   |
-| `DB_{N}_HOST`     | Yes      |              | PostgreSQL host          |
-| `DB_{N}_PORT`     | No       | `5432`       | PostgreSQL port          |
-| `DB_{N}_USERNAME` | Yes      |              | PostgreSQL user          |
-| `DB_{N}_PASSWORD` | No       | `""`         | PostgreSQL password      |
-| `DB_{N}_SSL`      | No       | `false`      | Set `true` to enable SSL |
+| Variable              | Required | Default      | Description                                        |
+| --------------------- | -------- | ------------ | -------------------------------------------------- |
+| `DB_{N}_DISPLAY_NAME` | No       | `Server {N}` | Display name in the UI                             |
+| `DB_{N}_HOST`         | Yes      |              | PostgreSQL host                                    |
+| `DB_{N}_PORT`         | No       | `5432`       | PostgreSQL port                                    |
+| `DB_{N}_USERNAME`     | Yes      |              | PostgreSQL user                                    |
+| `DB_{N}_PASSWORD`     | No       | `""`         | PostgreSQL password                                |
+| `DB_{N}_SSL`          | No       | `false`      | Set `true` to enable SSL                           |
+| `DB_{N}_AUTODISCOVER` | No       | `true`       | Discover all databases on the server automatically |
+| `DB_{N}_DATABASES`    | No       |              | Comma-separated list of databases to show          |
+
+### Database Discovery
+
+By default, pgui connects to the `postgres` maintenance database and discovers all non-template databases on each server. To restrict the visible databases, set `DB_{N}_DATABASES` to a comma-separated list:
+
+```bash
+DB_1_DATABASES=app_db,analytics_db,users_db
+```
+
+When `DB_{N}_DATABASES` is set, autodiscovery is disabled automatically (you do not need to set `DB_{N}_AUTODISCOVER=false`).
+
+`DB_{N}_AUTODISCOVER` and `DB_{N}_DATABASES` are mutually exclusive — explicitly setting `DB_{N}_AUTODISCOVER=true` while also providing `DB_{N}_DATABASES` is a configuration error.

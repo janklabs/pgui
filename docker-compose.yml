@@ -4,19 +4,20 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # Server 1
-      - DB_1_NAME=production
+      # Server 1 (autodiscover all databases)
+      - DB_1_DISPLAY_NAME=production
       - DB_1_HOST=host.docker.internal
       - DB_1_PORT=5432
       - DB_1_USERNAME=readonly
       - DB_1_PASSWORD=secret
       - DB_1_SSL=false
 
-      # Server 2 (example)
-      # - DB_2_NAME=staging
+      # Server 2 (explicit database list)
+      # - DB_2_DISPLAY_NAME=staging
       # - DB_2_HOST=staging-db.internal
       # - DB_2_PORT=5432
       # - DB_2_USERNAME=readonly
       # - DB_2_PASSWORD=secret2
       # - DB_2_SSL=true
+      # - DB_2_DATABASES=app_db,analytics_db
     restart: unless-stopped

@@ -52,15 +52,15 @@ There is no test framework configured. No test commands exist.
 
 ### Naming
 
-| Entity              | Convention                | Example                                      |
-| ------------------- | ------------------------- | -------------------------------------------- |
-| Files               | kebab-case                | `schema-tree.tsx`, `server-card.tsx`         |
-| Components          | PascalCase functions      | `export function SchemaTree()`               |
-| Pages/Layouts       | PascalCase default export | `export default async function ServerPage()` |
-| Variables/functions | camelCase                 | `getServerConfigs`, `formatRowCount`         |
-| Types/Interfaces    | PascalCase                | `ServerConfig`, `TableDataResult`            |
-| Props interfaces    | `{Component}Props`        | `ServerCardProps`, `DataTableProps`          |
-| Environment vars    | `DB_{N}_{FIELD}`          | `DB_1_HOST`, `DB_2_USERNAME`                 |
+| Entity              | Convention                | Example                                        |
+| ------------------- | ------------------------- | ---------------------------------------------- |
+| Files               | kebab-case                | `schema-tree.tsx`, `server-card.tsx`           |
+| Components          | PascalCase functions      | `export function SchemaTree()`                 |
+| Pages/Layouts       | PascalCase default export | `export default async function ServerPage()`   |
+| Variables/functions | camelCase                 | `getServerConfigs`, `formatRowCount`           |
+| Types/Interfaces    | PascalCase                | `ServerConfig`, `TableDataResult`              |
+| Props interfaces    | `{Component}Props`        | `ServerCardProps`, `DataTableProps`            |
+| Environment vars    | `DB_{N}_{FIELD}`          | `DB_1_HOST`, `DB_2_USERNAME`, `DB_1_DATABASES` |
 
 ### Exports
 
@@ -213,12 +213,18 @@ Servers are configured via numbered env vars (`DB_1_*`, `DB_2_*`, ...).
 The app scans sequentially and stops at the first gap.
 
 ```
-DB_1_NAME=production    # Display name (defaults to "Server N")
-DB_1_HOST=localhost     # Required
-DB_1_PORT=5432          # Optional, defaults to 5432
-DB_1_USERNAME=readonly      # Required
-DB_1_PASSWORD=secret    # Optional, defaults to ""
-DB_1_SSL=false          # Optional, defaults to false
+DB_1_DISPLAY_NAME=production    # Display name (defaults to "Server N")
+DB_1_HOST=localhost             # Required
+DB_1_PORT=5432                  # Optional, defaults to 5432
+DB_1_USERNAME=readonly          # Required
+DB_1_PASSWORD=secret            # Optional, defaults to ""
+DB_1_SSL=false                  # Optional, defaults to false
+DB_1_AUTODISCOVER=true          # Optional, defaults to true (discover all databases)
+DB_1_DATABASES=db1,db2          # Optional, comma-separated list (mutually exclusive with AUTODISCOVER)
 ```
+
+`DB_{N}_AUTODISCOVER` and `DB_{N}_DATABASES` are mutually exclusive.
+When `DB_{N}_DATABASES` is set, autodiscovery is disabled automatically.
+Explicitly setting `AUTODISCOVER=true` with `DATABASES` set is a config error.
 
 Env vars are only read in `src/lib/db/config.ts`, never in client components.

@@ -29,7 +29,7 @@ export function getPool(config: ServerConfig, databaseName?: string): pg.Pool {
 
   pool.on("error", (err) => {
     console.error(
-      `Pool error for server ${config.name} database ${dbName}:`,
+      `Pool error for server ${config.displayName} database ${dbName}:`,
       err,
     )
   })

@@ -36,6 +36,27 @@ export async function getDatabases(
   return result.rows
 }
 
+export async function getDatabasesByNames(
+  config: ServerConfig,
+  names: string[],
+): Promise<DatabaseInfo[]> {
+  const pool = getPool(config)
+  const result = await pool.query<DatabaseInfo>(
+    `
+    SELECT
+      d.datname AS name,
+      pg_catalog.pg_get_userbyid(d.datdba) AS owner,
+      pg_catalog.pg_size_pretty(pg_catalog.pg_database_size(d.datname)) AS size,
+      pg_catalog.pg_encoding_to_char(d.encoding) AS encoding
+    FROM pg_catalog.pg_database d
+    WHERE d.datname = ANY($1)
+    ORDER BY d.datname
+    `,
+    [names],
+  )
+  return result.rows
+}
+
 export async function getDatabaseOverview(
   config: ServerConfig,
   databaseName: string,

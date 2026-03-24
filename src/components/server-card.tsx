@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { CheckCircle2, Server, XCircle } from "lucide-react"
+import { AlertTriangle, CheckCircle2, Server, XCircle } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import {
@@ -17,6 +17,35 @@ interface ServerCardProps {
 }
 
 export function ServerCard({ config, status }: ServerCardProps) {
+  if (config.configError) {
+    return (
+      <Link href={`/server/${config.id}`}>
+        <Card className="border-destructive/50 hover:border-destructive transition-colors">
+          <CardHeader className="pb-3">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-2">
+                <Server className="h-4 w-4 text-indigo-500" />
+                <CardTitle className="text-base">
+                  {config.displayName}
+                </CardTitle>
+              </div>
+              <Badge variant="destructive">
+                <AlertTriangle className="mr-1 h-3 w-3" />
+                Bad Config
+              </Badge>
+            </div>
+            <CardDescription className="font-mono text-xs">
+              {config.host}:{config.port}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-destructive text-xs">{config.configError}</p>
+          </CardContent>
+        </Card>
+      </Link>
+    )
+  }
+
   return (
     <Link href={`/server/${config.id}`}>
       <Card className="hover:border-primary/50 transition-colors">
@@ -24,7 +53,7 @@ export function ServerCard({ config, status }: ServerCardProps) {
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
               <Server className="h-4 w-4 text-indigo-500" />
-              <CardTitle className="text-base">{config.name}</CardTitle>
+              <CardTitle className="text-base">{config.displayName}</CardTitle>
             </div>
             {status.ok ? (
               <Badge

@@ -3,7 +3,11 @@ import { notFound } from "next/navigation"
 import { Server } from "lucide-react"
 
 import { getServerConfig } from "@/lib/db/config"
-import { getDatabases, getServerVersion } from "@/lib/db/queries"
+import {
+  getDatabases,
+  getDatabasesByNames,
+  getServerVersion,
+} from "@/lib/db/queries"
 import { CreateDatabaseDialog } from "@/components/create-database-dialog"
 import { DatabaseCard } from "@/components/db-card"
 import { Header } from "@/components/header"
@@ -22,7 +26,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { serverId } = await params
   const config = await getServerConfig(serverId)
-  return { title: config?.name ?? "Server" }
+  return { title: config?.displayName ?? "Server" }
 }
 
 export default async function ServerPage({
@@ -37,14 +41,45 @@ export default async function ServerPage({
     notFound()
   }
 
+  if (config.configError) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1 p-6">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-6">
+              <div className="flex items-center gap-2">
+                <Server className="h-5 w-5 text-indigo-500" />
+                <h1 className="text-2xl font-bold tracking-tight">
+                  {config.displayName}
+                </h1>
+              </div>
+              <p className="text-muted-foreground mt-1 font-mono text-sm">
+                {config.host}:{config.port}
+              </p>
+            </div>
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-destructive text-sm">{config.configError}</p>
+              </CardContent>
+            </Card>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
   let version: string | null = null
   let databases: Awaited<ReturnType<typeof getDatabases>> = []
   let error: string | null = null
 
   try {
+    const fetchDatabases = config.autodiscover
+      ? getDatabases(config)
+      : getDatabasesByNames(config, config.databases ?? [])
     ;[version, databases] = await Promise.all([
       getServerVersion(config),
-      getDatabases(config),
+      fetchDatabases,
     ])
   } catch (err) {
     error = err instanceof Error ? err.message : "Failed to connect to server"
@@ -59,7 +94,7 @@ export default async function ServerPage({
             <div className="flex items-center gap-2">
               <Server className="h-5 w-5 text-indigo-500" />
               <h1 className="text-2xl font-bold tracking-tight">
-                {config.name}
+                {config.displayName}
               </h1>
             </div>
             <p className="text-muted-foreground mt-1 font-mono text-sm">

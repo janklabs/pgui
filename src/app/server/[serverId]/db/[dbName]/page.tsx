@@ -20,7 +20,7 @@ export async function generateMetadata({
   const { serverId, dbName } = await params
   const config = await getServerConfig(serverId)
   return {
-    title: `${decodeURIComponent(dbName)} · ${config?.name ?? "Server"}`,
+    title: `${decodeURIComponent(dbName)} · ${config?.displayName ?? "Server"}`,
   }
 }
 

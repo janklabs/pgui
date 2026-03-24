@@ -26,6 +26,9 @@ export default async function HomePage() {
 
   const statuses = await Promise.all(
     configs.map(async (config) => {
+      if (config.configError) {
+        return { config, status: { ok: false, error: config.configError } }
+      }
       const status = await testConnection(config)
       return { config, status }
     }),

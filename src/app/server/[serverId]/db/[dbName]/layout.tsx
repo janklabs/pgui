@@ -43,7 +43,7 @@ export default async function DatabaseLayout({
                 {decodedDbName}
               </div>
               <div className="text-muted-foreground truncate font-mono text-xs">
-                {config.name} &middot; {config.host}:{config.port}
+                {config.displayName} &middot; {config.host}:{config.port}
               </div>
             </div>
           </div>
