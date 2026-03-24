@@ -268,8 +268,9 @@ function FilterBar({
   )
 
   const handleAddFilter = () => {
-    if (filterColumn && filterValue.trim()) {
-      onFilterChange(filterColumn, filterValue.trim())
+    if (filterValue.trim()) {
+      const col = filterColumn || "__all"
+      onFilterChange(col, filterValue.trim())
       setFilterValue("")
     }
   }
@@ -303,7 +304,7 @@ function FilterBar({
           size="sm"
           className="h-8"
           onClick={handleAddFilter}
-          disabled={!filterColumn || !filterValue.trim()}
+          disabled={!filterValue.trim()}
         >
           Filter
         </Button>
@@ -316,7 +317,9 @@ function FilterBar({
               variant="secondary"
               className="gap-1 bg-violet-500/10 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300"
             >
-              <span className="font-medium">{col}</span>
+              <span className="font-medium">
+                {col === "__all" ? "Any column" : col}
+              </span>
               <span className="text-muted-foreground">contains</span>
               <span>&quot;{value}&quot;</span>
               <button

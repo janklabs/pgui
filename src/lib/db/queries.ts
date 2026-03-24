@@ -237,7 +237,19 @@ export async function getTableData(
 
   if (options.filters) {
     for (const [col, value] of Object.entries(options.filters)) {
-      if (validColumns.has(col) && value.trim() !== "") {
+      if (value.trim() === "") continue
+
+      if (col === "__all") {
+        // Search across all columns
+        const allColumnClauses = columns
+          .map((c) => `${quoteIdent(c.column_name)}::text ILIKE $${paramIndex}`)
+          .join(" OR ")
+        if (allColumnClauses) {
+          whereClauses.push(`(${allColumnClauses})`)
+          params.push(`%${value}%`)
+          paramIndex++
+        }
+      } else if (validColumns.has(col)) {
         whereClauses.push(`${quoteIdent(col)}::text ILIKE $${paramIndex}`)
         params.push(`%${value}%`)
         paramIndex++
