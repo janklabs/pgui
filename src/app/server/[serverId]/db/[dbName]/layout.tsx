@@ -4,6 +4,7 @@ import { Database } from "lucide-react"
 import { getServerConfig } from "@/lib/db/config"
 import { getSchemas } from "@/lib/db/queries"
 import { Header } from "@/components/header"
+import { ResizableSidebar } from "@/components/resizable-sidebar"
 import { SchemaTree } from "@/components/schema-tree"
 import { Separator } from "@/components/ui/separator"
 
@@ -35,9 +36,9 @@ export default async function DatabaseLayout({
     <div className="flex h-screen flex-col">
       <Header />
       <div className="flex flex-1 overflow-hidden">
-        <aside className="bg-muted/30 flex w-64 shrink-0 flex-col border-r">
+        <ResizableSidebar>
           <div className="flex items-center gap-2 px-4 py-3">
-            <Database className="h-4 w-4 text-violet-500" />
+            <Database className="h-4 w-4 shrink-0 text-violet-500" />
             <div className="min-w-0">
               <div className="truncate text-sm font-medium">
                 {decodedDbName}
@@ -57,7 +58,7 @@ export default async function DatabaseLayout({
               schemas={schemas}
             />
           )}
-        </aside>
+        </ResizableSidebar>
 
         <main className="flex-1 overflow-auto">{children}</main>
       </div>

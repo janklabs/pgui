@@ -121,7 +121,7 @@ function SchemaNode({
             <Link
               key={table.table_name}
               href={`${baseUrl}/${encodeURIComponent(schemaName)}/${encodeURIComponent(table.table_name)}`}
-              className={`hover:bg-accent flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm ${
+              className={`hover:bg-accent flex min-w-0 items-center gap-1.5 rounded-md px-2 py-1.5 text-sm ${
                 activeTable === table.table_name
                   ? "bg-primary/10 text-primary font-medium"
                   : ""
